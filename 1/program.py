@@ -4,7 +4,7 @@ from coefficients import IncomingCoefficient, OutgoingCoefficient, SMSCoefficien
 from rules import BasicRule
 from data_manager import DataManager
 
-def main():
+def calculate_tel():
     i = IncomingCoefficient()
     i.set_base_rule(BasicRule(1))
     o = OutgoingCoefficient()
@@ -15,7 +15,10 @@ def main():
     b = BaseBilling("968247916")
     b.load_tariff(t)
     b.load_records(DataManager.get_data())
-    print("Результат: ", b.count())
+    return b.count()
+
+def main():
+    print("Результат: ", calculate_tel())
     
 if __name__ == "__main__":
     main()

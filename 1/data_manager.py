@@ -1,6 +1,7 @@
 import pandas as pd
+import os
 
-file_name = "data.csv"
+file_name = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data.csv")
 
 class DataManager:
     @classmethod

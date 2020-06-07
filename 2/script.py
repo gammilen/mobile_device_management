@@ -1,5 +1,6 @@
 import pandas as pd
-
+from plots import *
+import os
 
 class Charging:
     def __init__(self, ip):
@@ -10,7 +11,7 @@ class Charging:
     
     def init_df(self, abonent_ip):
         #load file
-        df = pd.read_csv("file.csv")
+        df = pd.read_csv(os.path.join(os.path.dirname(os.path.abspath(__file__)), "file.csv"))
         #filter columns
         df = df[["ts", "te", "td", "sa", "ibyt"]]
         #filter source address
@@ -49,16 +50,27 @@ class Charging:
         return round(self._payment, 2)
 
 
-abonent_ip = "192.168.250.59"
 
-c = Charging(abonent_ip)
-c.init_rules(1, [(0, 1000)])
-c.calculate()
-print("Оплата услуги \"Интернет\":", c.payment, "руб.")
 
-from plots import *
-print("График связи объема трафика и длительности обращения")
-make_time_traffic_plot(c.df)
-print("График связи объема трафика и времени обращения")
-make_duration_traffic_plot(c.df)
+def prepare_charging():
+    abonent_ip = "192.168.250.59"
 
+    c = Charging(abonent_ip)
+    c.init_rules(1, [(0, 1000)])
+    return c
+    
+def get_payment(charging):
+    charging.calculate()
+    return charging.payment
+    
+def main():
+    c = prepare_charging()
+    print("Оплата услуги \"Интернет\":", get_payment(c), "руб.")
+
+    print("График связи объема трафика и длительности обращения")
+    make_duration_traffic_plot(c.df)
+    print("График связи объема трафика и времени обращения")
+    make_time_traffic_plot(c.df)
+
+if __name__ == "__main__":
+    main()
