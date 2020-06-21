@@ -31,7 +31,7 @@ class Charging:
     def calculate(self):
         a = self._get_amount()
         #apply addition rule
-        if (self.add_rule["k"] and self.add_rule["limit"]):
+        if (self.add_rule):
             tmp = a - self.add_rule["limit"]
             if tmp <= 0:
                 #change conditions (Mb to Kb(in Mb)
